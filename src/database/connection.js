@@ -8,4 +8,4 @@ sequelize
   .then(() => console.info("Conexão estabelecida!"))
   .catch((error) => console.error(`Ocorreu um erro ${error}`));
 
-module.exports = sequelize;
+module.exports = { Sequelize, sequelize };
