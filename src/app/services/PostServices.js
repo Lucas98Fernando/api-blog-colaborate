@@ -1,19 +1,13 @@
 const Post = require("../models/Post");
 
 class PostServices {
-  body = {};
-
-  constructor(body) {
-    this.body = body;
-  }
-
-  async createPost() {
+  async create(body) {
     try {
-      await Post.create(this.body);
+      await Post.create(body);
     } catch (error) {
       throw new Error(error);
     }
   }
 }
 
-module.exports = PostServices;
+module.exports = new PostServices();

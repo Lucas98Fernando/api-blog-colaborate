@@ -5,12 +5,6 @@ const authConfig = require("../../config/auth");
 const bcrypt = require("bcryptjs");
 
 class AuthServices {
-  // body = {};
-
-  // constructor(body) {
-  //   this.body = body;
-  // }
-
   generateJwt(params = {}) {
     return jwt.sign({ params }, authConfig.secret, {
       expiresIn: 86400,
@@ -47,9 +41,14 @@ class AuthServices {
       if (!(await bcrypt.compare(password, user.password)))
         throw new AuthError("E-mail ou senha incorretos", 401);
       else {
-        // removing password field from response
-        user.password = undefined;
-        return { user, token: this.generateJwt({ id: user.id }) };
+        return {
+          user: {
+            idUserType: user.idUserType,
+            name: user.name,
+            email: user.email,
+          },
+          token: this.generateJwt({ id: user.id }),
+        };
       }
     } catch (error) {
       throw error;
