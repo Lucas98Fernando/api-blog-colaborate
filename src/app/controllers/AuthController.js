@@ -15,7 +15,6 @@ class AuthController {
           .json("Não foi possível cadastrar o usuário");
     }
   }
-
   async login(request, response) {
     try {
       const userData = await AuthServices.login(request.body);
