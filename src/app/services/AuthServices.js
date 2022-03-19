@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const authConfig = require("../../config/auth");
 const bcrypt = require("bcryptjs");
 
-class AuthController {
+class AuthServices {
   body = {};
 
   constructor(body) {
@@ -57,4 +57,4 @@ class AuthController {
   }
 }
 
-module.exports = AuthController;
+module.exports = AuthServices;

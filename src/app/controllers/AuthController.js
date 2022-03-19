@@ -24,7 +24,7 @@ const AuthController = {
         response.status(401).send("E-mail ou senha incorretos");
       else response.status(200).send(checkLogin);
     } catch (error) {
-      response.status(400).send("Não foi possível realizar o cadastro");
+      response.status(400).send("Não foi possível realizar o login");
     }
   },
 };

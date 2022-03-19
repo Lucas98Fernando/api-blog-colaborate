@@ -12,6 +12,11 @@ const Post = db.sequelize.define("posts", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  status: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 1,
+  },
   title: {
     type: DataTypes.STRING,
     allowNull: false,
