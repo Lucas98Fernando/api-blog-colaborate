@@ -42,7 +42,7 @@ class AuthServices {
 
   async login() {
     try {
-      const password = this.body.password;
+      const { password } = this.body;
       const user = await this.checkEmail();
       // User don't exists
       if (!user) return 1;

@@ -1,32 +1,33 @@
 const AuthServices = require("../services/AuthServices");
 
-const AuthController = {
+class AuthController {
   async Register(request, response) {
     try {
       const body = request.body;
       const user = new AuthServices(body);
-      const checkEmail = await user.register();
+      const checkEmail = await user.register(body);
       // Check if e-mail already exists
-      if (checkEmail) response.status(400).send("E-mail já cadastrado!");
-      else response.status(200).send("Usuário cadastrado com sucesso!");
+      if (checkEmail) return response.status(400).json("E-mail já cadastrado!");
+      else return response.status(200).json("Usuário cadastrado com sucesso!");
     } catch (error) {
-      response.status(400).send("Não foi possível cadastrar o usuário");
+      return response.status(400).json("Não foi possível cadastrar o usuário");
     }
-  },
+  }
+
   async Login(request, response) {
     try {
       const body = request.body;
       const user = new AuthServices(body);
       const checkLogin = await user.login();
       if (checkLogin === 1)
-        response.status(400).send("Usuário não encontrado!");
+        response.status(400).json("Usuário não encontrado!");
       else if (checkLogin === 2)
-        response.status(401).send("E-mail ou senha incorretos");
-      else response.status(200).send(checkLogin);
+        response.status(401).json("E-mail ou senha incorretos");
+      else response.status(200).json(checkLogin);
     } catch (error) {
-      response.status(400).send("Não foi possível realizar o login");
+      response.status(400).json("Não foi possível realizar o login");
     }
-  },
-};
+  }
+}
 
-module.exports = AuthController;
+module.exports = new AuthController();
