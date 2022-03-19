@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const AuthError = require("../errors/AuthExcepetions");
 const jwt = require("jsonwebtoken");
 const authConfig = require("../../config/auth");
 const bcrypt = require("bcryptjs");
@@ -30,13 +31,10 @@ class AuthServices {
   async register() {
     try {
       const hasEmail = await this.checkEmail();
-      if (hasEmail) return true;
-      else {
-        await User.create(this.body);
-        return false;
-      }
+      if (hasEmail) throw new AuthError("E-mail já cadastrado!");
+      else await User.create(this.body);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   }
 

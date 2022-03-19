@@ -1,16 +1,19 @@
 const AuthServices = require("../services/AuthServices");
+const AuthError = require("../errors/AuthExcepetions");
 
 class AuthController {
   async Register(request, response) {
     try {
       const body = request.body;
       const user = new AuthServices(body);
-      const checkEmail = await user.register(body);
-      // Check if e-mail already exists
-      if (checkEmail) return response.status(400).json("E-mail já cadastrado!");
-      else return response.status(200).json("Usuário cadastrado com sucesso!");
+      await user.register(body);
+      return response.status(200).json("Usuário cadastrado com sucesso!");
     } catch (error) {
-      return response.status(400).json("Não foi possível cadastrar o usuário");
+      if (error instanceof AuthError) return response.status(400).json(error);
+      else
+        return response
+          .status(400)
+          .json("Não foi possível cadastrar o usuário");
     }
   }
 
