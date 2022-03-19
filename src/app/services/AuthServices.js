@@ -5,11 +5,11 @@ const authConfig = require("../../config/auth");
 const bcrypt = require("bcryptjs");
 
 class AuthServices {
-  body = {};
+  // body = {};
 
-  constructor(body) {
-    this.body = body;
-  }
+  // constructor(body) {
+  //   this.body = body;
+  // }
 
   generateJwt(params = {}) {
     return jwt.sign({ params }, authConfig.secret, {
@@ -17,10 +17,10 @@ class AuthServices {
     });
   }
 
-  async checkEmail() {
+  async checkEmail(email) {
     try {
       const userByEmail = await User.findOne({
-        where: { email: this.body.email },
+        where: { email: email },
       });
       return userByEmail;
     } catch (error) {
@@ -28,31 +28,33 @@ class AuthServices {
     }
   }
 
-  async register() {
+  async register(body) {
     try {
-      const hasEmail = await this.checkEmail();
+      const { email } = body;
+      const hasEmail = await this.checkEmail(email);
       if (hasEmail) throw new AuthError("E-mail já cadastrado!");
-      else await User.create(this.body);
+      else await User.create(body);
     } catch (error) {
       throw error;
     }
   }
 
-  async login() {
+  async login(body) {
     try {
-      const { password } = this.body;
-      const user = await this.checkEmail();
-      // User don't exists
-      if (!user) return 1;
-      // Password don't match
-      if (!(await bcrypt.compare(password, user.password))) return 2;
-      // removing password field from response
-      user.password = undefined;
-      return { user, token: this.generateJwt({ id: user.id }) };
+      const { email, password } = body;
+      const user = await this.checkEmail(email);
+      if (!user) throw new AuthError("Usuário não encontrado");
+      if (!(await bcrypt.compare(password, user.password)))
+        throw new AuthError("E-mail ou senha incorretos", 401);
+      else {
+        // removing password field from response
+        user.password = undefined;
+        return { user, token: this.generateJwt({ id: user.id }) };
+      }
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   }
 }
 
-module.exports = AuthServices;
+module.exports = new AuthServices();

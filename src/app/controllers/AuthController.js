@@ -2,11 +2,9 @@ const AuthServices = require("../services/AuthServices");
 const AuthError = require("../errors/AuthExcepetions");
 
 class AuthController {
-  async Register(request, response) {
+  async register(request, response) {
     try {
-      const body = request.body;
-      const user = new AuthServices(body);
-      await user.register(body);
+      await AuthServices.register(request.body);
       return response.status(200).json("Usuário cadastrado com sucesso!");
     } catch (error) {
       if (error instanceof AuthError) return response.status(400).json(error);
@@ -17,18 +15,15 @@ class AuthController {
     }
   }
 
-  async Login(request, response) {
+  async login(request, response) {
     try {
-      const body = request.body;
-      const user = new AuthServices(body);
-      const checkLogin = await user.login();
-      if (checkLogin === 1)
-        response.status(400).json("Usuário não encontrado!");
-      else if (checkLogin === 2)
-        response.status(401).json("E-mail ou senha incorretos");
-      else response.status(200).json(checkLogin);
+      const userData = await AuthServices.login(request.body);
+      return response.status(200).json(userData);
     } catch (error) {
-      response.status(400).json("Não foi possível realizar o login");
+      if (error instanceof AuthError)
+        return response.status(error.status).json(error.message);
+      else
+        return response.status(400).json("Não foi possível realizar o login");
     }
   }
 }
