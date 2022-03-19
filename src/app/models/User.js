@@ -1,6 +1,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const db = require("../../database/connection");
 const bcrypt = require("bcryptjs");
+const post = require("./Post");
 
 const User = db.sequelize.define(
   "users",
@@ -10,6 +11,11 @@ const User = db.sequelize.define(
       primaryKey: true,
       autoIncrement: true,
       allowNull: false,
+    },
+    idUserType: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 2,
     },
     name: {
       type: DataTypes.STRING,
@@ -42,6 +48,10 @@ const User = db.sequelize.define(
   }
 );
 
-// User.sync({ force: true });
+User.hasMany(post, {
+  foreignKey: "idAuthor",
+});
+
+User.sync({ alter: true });
 
 module.exports = User;
