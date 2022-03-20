@@ -5,6 +5,7 @@ require("dotenv/config");
 // Module routes
 const authRoutes = require("./routes/auth");
 const postRoutes = require("./routes/post");
+const categoryRoutes = require("./routes/category");
 
 class App {
   express = express.application;
@@ -24,6 +25,7 @@ class App {
   routes() {
     this.express.use("/auth", authRoutes);
     this.express.use("/post", postRoutes);
+    this.express.use("/category", categoryRoutes);
   }
 }
 

@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const AuthError = require("../errors/AuthExcepetions");
+const AuthError = require("../errors/AuthExceptions");
 const jwt = require("jsonwebtoken");
 const authConfig = require("../../config/auth");
 const bcrypt = require("bcryptjs");
@@ -10,7 +10,6 @@ class AuthServices {
       expiresIn: 86400,
     });
   }
-
   async checkEmail(email) {
     try {
       const userByEmail = await User.findOne({
@@ -21,18 +20,18 @@ class AuthServices {
       throw new Error(error);
     }
   }
-
   async register(body) {
     try {
-      const { email } = body;
+      const { name, idUserType, email, password } = body;
       const hasEmail = await this.checkEmail(email);
       if (hasEmail) throw new AuthError("E-mail já cadastrado!");
+      if (!name || !idUserType || !email || !password)
+        throw new AuthError("Existem campos inválidos");
       else await User.create(body);
     } catch (error) {
       throw error;
     }
   }
-
   async login(body) {
     try {
       const { email, password } = body;

@@ -1,5 +1,5 @@
 const AuthServices = require("../services/AuthServices");
-const AuthError = require("../errors/AuthExcepetions");
+const AuthError = require("../errors/AuthExceptions");
 
 class AuthController {
   async register(request, response) {
@@ -8,7 +8,7 @@ class AuthController {
       return response.status(200).json("Usuário cadastrado com sucesso!");
     } catch (error) {
       if (error instanceof AuthError)
-        return response.status(error.status).json(error.message);
+        return response.status(error.status).json({ error: error.message });
       else
         return response
           .status(400)
@@ -21,9 +21,11 @@ class AuthController {
       return response.status(200).json(userData);
     } catch (error) {
       if (error instanceof AuthError)
-        return response.status(error.status).json(error.message);
+        return response.status(error.status).json({ error: error.message });
       else
-        return response.status(400).json("Não foi possível realizar o login");
+        return response
+          .status(400)
+          .json({ error: "Não foi possível realizar o login" });
     }
   }
 }
