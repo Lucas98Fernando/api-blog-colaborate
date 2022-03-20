@@ -1,17 +1,32 @@
 const express = require("express");
 const cors = require("cors");
-const routes = require("./routes/routes");
 require("dotenv/config");
 
-const app = express();
+// Module routes
+const authRoutes = require("./routes/auth");
+const postRoutes = require("./routes/post");
+const categoryRoutes = require("./routes/category");
 
-app.use(express.json());
-app.use(
-  express.urlencoded({
-    extended: true,
-  })
-);
-app.use(cors());
-app.use(routes);
+class App {
+  express = express.application;
 
-module.exports = app;
+  constructor() {
+    this.express = express();
+    this.middlewares();
+    this.routes();
+  }
+
+  middlewares() {
+    this.express.use(express.json());
+    this.express.use(express.urlencoded({ extended: true }));
+    this.express.use(cors());
+  }
+
+  routes() {
+    this.express.use("/auth", authRoutes);
+    this.express.use("/post", postRoutes);
+    this.express.use("/category", categoryRoutes);
+  }
+}
+
+module.exports = new App().express;

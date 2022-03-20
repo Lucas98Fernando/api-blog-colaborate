@@ -52,6 +52,6 @@ User.hasMany(post, {
   foreignKey: "idAuthor",
 });
 
-User.sync({ alter: true });
+// User.sync({ force: true });
 
 module.exports = User;

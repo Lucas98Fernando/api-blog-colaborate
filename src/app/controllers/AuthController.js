@@ -1,32 +1,33 @@
 const AuthServices = require("../services/AuthServices");
+const AuthError = require("../errors/AuthExceptions");
 
-const AuthController = {
-  async Register(request, response) {
+class AuthController {
+  async register(request, response) {
     try {
-      const body = request.body;
-      const user = new AuthServices(body);
-      const checkEmail = await user.register();
-      // Check if e-mail already exists
-      if (checkEmail) response.status(400).send("E-mail já cadastrado!");
-      else response.status(200).send("Usuário cadastrado com sucesso!");
+      await AuthServices.register(request.body);
+      return response.status(200).json("Usuário cadastrado com sucesso!");
     } catch (error) {
-      response.status(400).send("Não foi possível cadastrar o usuário");
+      if (error instanceof AuthError)
+        return response.status(error.status).json({ error: error.message });
+      else
+        return response
+          .status(400)
+          .json("Não foi possível cadastrar o usuário");
     }
-  },
-  async Login(request, response) {
+  }
+  async login(request, response) {
     try {
-      const body = request.body;
-      const user = new AuthServices(body);
-      const checkLogin = await user.login();
-      if (checkLogin === 1)
-        response.status(400).send("Usuário não encontrado!");
-      else if (checkLogin === 2)
-        response.status(401).send("E-mail ou senha incorretos");
-      else response.status(200).send(checkLogin);
+      const userData = await AuthServices.login(request.body);
+      return response.status(200).json(userData);
     } catch (error) {
-      response.status(400).send("Não foi possível realizar o login");
+      if (error instanceof AuthError)
+        return response.status(error.status).json({ error: error.message });
+      else
+        return response
+          .status(400)
+          .json({ error: "Não foi possível realizar o login" });
     }
-  },
-};
+  }
+}
 
-module.exports = AuthController;
+module.exports = new AuthController();

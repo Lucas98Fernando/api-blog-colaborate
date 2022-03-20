@@ -1,17 +1,20 @@
 const PostServices = require("../services/PostServices");
+const PostError = require("../errors/PostExceptions");
 
-const PostController = {
-  async CreatePost(request, response) {
+class PostController {
+  async createPost(request, response) {
     try {
-      const body = request.body;
-      const post = new PostServices(body);
-      await post.createPost();
-      response.status(200).send("Post criado com sucesso!");
+      await PostServices.create(request.body, request.userId);
+      return response.status(200).json("Post criado com sucesso!");
     } catch (error) {
-      response.status(400).send("Não foi possível cadastrar o post");
-      console.log(error);
+      if (error instanceof PostError)
+        return response.status(error.status).json({ error: error.message });
+      else
+        return response
+          .status(400)
+          .json({ error: "Não foi possível cadastrar o post" });
     }
-  },
-};
+  }
+}
 
-module.exports = PostController;
+module.exports = new PostController();
