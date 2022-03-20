@@ -46,7 +46,7 @@ class AuthServices {
             name: user.name,
             email: user.email,
           },
-          token: this.generateJwt({ id: user.id }),
+          token: this.generateJwt({ id: user.id, idUserType: user.idUserType }),
         };
       }
     } catch (error) {
