@@ -10,6 +10,18 @@ routes.post(
   AdminMiddleware,
   CategoryController.create
 );
+routes.put(
+  "/update/:idCategory",
+  AuthMiddleware,
+  AdminMiddleware,
+  CategoryController.update
+);
+routes.delete(
+  "/delete/:idCategory",
+  AuthMiddleware,
+  AdminMiddleware,
+  CategoryController.delete
+);
 routes.get("/get-all", AuthMiddleware, CategoryController.getAll);
 
 module.exports = routes;

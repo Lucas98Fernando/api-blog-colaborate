@@ -4,7 +4,7 @@ function isAdmin(request, response, next) {
   else
     return response
       .status(403)
-      .json({ error: "Você não tem permissão para acessar esse conteúdo" });
+      .json({ error: "Você não tem permissão para realizar essa ação" });
 }
 
 module.exports = isAdmin;
