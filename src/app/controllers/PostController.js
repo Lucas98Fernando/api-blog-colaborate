@@ -15,6 +15,42 @@ class PostController {
           .json({ error: "Não foi possível cadastrar o post" });
     }
   }
+  async getByUser(request, response) {
+    try {
+      const postsByUser = await PostServices.getByUser(request.userId);
+      return response.status(200).json(postsByUser);
+    } catch (error) {
+      return response
+        .status(400)
+        .json({ error: "Não foi possível listar as postagens" });
+    }
+  }
+  async getAll(request, response) {
+    try {
+      const allPosts = await PostServices.getAll();
+      return response.status(200).json(allPosts);
+    } catch (error) {
+      return response
+        .status(400)
+        .json({ error: "Não foi possível listar as postagens" });
+    }
+  }
+  async getApproved(request, response) {
+    try {
+      const approvedPosts = await PostServices.getApproved();
+      return response.status(200).json(approvedPosts);
+    } catch (error) {
+      return response
+        .status(400)
+        .json({ error: "Não foi possível listar as postagens" });
+    }
+  }
+  async getWaitingApproval(request, response) {
+    try {
+      const waitingApproval = await PostServices.getWaitingApproval();
+      return response.status(200).json(waitingApproval);
+    } catch (error) {}
+  }
 }
 
 module.exports = new PostController();

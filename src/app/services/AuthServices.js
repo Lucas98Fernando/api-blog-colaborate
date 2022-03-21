@@ -40,13 +40,14 @@ class AuthServices {
       if (!(await bcrypt.compare(password, user.password)))
         throw new AuthError("E-mail ou senha incorretos", 401);
       else {
+        const { id, idUserType, name, email } = user;
         return {
           user: {
-            idUserType: user.idUserType,
-            name: user.name,
-            email: user.email,
+            idUserType,
+            name,
+            email,
           },
-          token: this.generateJwt({ id: user.id, idUserType: user.idUserType }),
+          token: this.generateJwt({ id, idUserType }),
         };
       }
     } catch (error) {

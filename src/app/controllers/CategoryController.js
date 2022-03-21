@@ -15,6 +15,16 @@ class CategoryController {
           .json({ error: "Não foi possível criar a categoria" });
     }
   }
+  async getAll(request, response) {
+    try {
+      const categories = await CategoryServices.getAll();
+      return response.status(200).json(categories);
+    } catch (error) {
+      return response
+        .status(400)
+        .json({ error: "Não foi possível listar as categorias" });
+    }
+  }
 }
 
 module.exports = new CategoryController();

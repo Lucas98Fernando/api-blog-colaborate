@@ -10,5 +10,6 @@ routes.post(
   AdminMiddleware,
   CategoryController.create
 );
+routes.get("/get-all", AuthMiddleware, CategoryController.getAll);
 
 module.exports = routes;
