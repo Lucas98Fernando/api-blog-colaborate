@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const db = require("../../database/connection");
-const category = require("./Category");
+const Category = require("./Category");
 
 const Post = db.sequelize.define("posts", {
   id: {
@@ -10,10 +10,6 @@ const Post = db.sequelize.define("posts", {
     allowNull: false,
   },
   idAuthor: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  idCategory: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
@@ -32,6 +28,9 @@ const Post = db.sequelize.define("posts", {
   },
 });
 
-// Post.sync({ force: true });
+Category.hasOne(Post, { foreignKey: "idCategory" });
+Post.belongsTo(Category, { foreignKey: "idCategory" });
+
+// Post.sync();
 
 module.exports = Post;

@@ -2,10 +2,10 @@ const PostServices = require("../services/PostServices");
 const PostError = require("../errors/PostExceptions");
 
 class PostController {
-  async createPost(request, response) {
+  async create(request, response) {
     try {
       await PostServices.create(request.body, request.userId);
-      return response.status(200).json("Post criado com sucesso!");
+      return response.status(201).json("Post criado com sucesso!");
     } catch (error) {
       if (error instanceof PostError)
         return response.status(error.status).json({ error: error.message });
@@ -14,6 +14,42 @@ class PostController {
           .status(400)
           .json({ error: "Não foi possível cadastrar o post" });
     }
+  }
+  async getByUser(request, response) {
+    try {
+      const postsByUser = await PostServices.getByUser(request.userId);
+      return response.status(200).json(postsByUser);
+    } catch (error) {
+      return response
+        .status(400)
+        .json({ error: "Não foi possível listar as postagens" });
+    }
+  }
+  async getAll(request, response) {
+    try {
+      const allPosts = await PostServices.getAll();
+      return response.status(200).json(allPosts);
+    } catch (error) {
+      return response
+        .status(400)
+        .json({ error: "Não foi possível listar as postagens" });
+    }
+  }
+  async getApproved(request, response) {
+    try {
+      const approvedPosts = await PostServices.getApproved();
+      return response.status(200).json(approvedPosts);
+    } catch (error) {
+      return response
+        .status(400)
+        .json({ error: "Não foi possível listar as postagens" });
+    }
+  }
+  async getWaitingApproval(request, response) {
+    try {
+      const waitingApproval = await PostServices.getWaitingApproval();
+      return response.status(200).json(waitingApproval);
+    } catch (error) {}
   }
 }
 

@@ -5,7 +5,7 @@ class AuthController {
   async register(request, response) {
     try {
       await AuthServices.register(request.body);
-      return response.status(200).json("Usuário cadastrado com sucesso!");
+      return response.status(201).json("Usuário cadastrado com sucesso!");
     } catch (error) {
       if (error instanceof AuthError)
         return response.status(error.status).json({ error: error.message });
