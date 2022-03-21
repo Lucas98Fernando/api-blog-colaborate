@@ -5,7 +5,7 @@ class CategoryController {
   async create(request, response) {
     try {
       await CategoryServices.create(request.body);
-      return response.status(200).json("Categoria cadastrada com sucesso!");
+      return response.status(201).json("Categoria cadastrada com sucesso!");
     } catch (error) {
       if (error instanceof CategoryError)
         return response.status(error.status).json({ error: error.message });

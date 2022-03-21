@@ -4,7 +4,7 @@ const PostController = require("../app/controllers/PostController");
 const AuthMiddleware = require("../middlewares/auth");
 
 // POST
-routes.post("/create", AuthMiddleware, PostController.createPost);
+routes.post("/create", AuthMiddleware, PostController.create);
 
 // GET
 routes.get("/get-all", AuthMiddleware, PostController.getAll);

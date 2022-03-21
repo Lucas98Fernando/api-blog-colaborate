@@ -23,7 +23,17 @@ class PostServices {
   }
   async getByUser(userId) {
     try {
-      const posts = await Post.findAll({ where: { idAuthor: userId } });
+      const posts = await Post.findAll({
+        where: { idAuthor: userId },
+        attributes: [
+          "id",
+          "idAuthor",
+          "idCategory",
+          "status",
+          "title",
+          "description",
+        ],
+      });
       return posts;
     } catch (error) {
       throw error;
@@ -31,7 +41,16 @@ class PostServices {
   }
   async getAll() {
     try {
-      const allPosts = await Post.findAll();
+      const allPosts = await Post.findAll({
+        attributes: [
+          "id",
+          "idAuthor",
+          "idCategory",
+          "status",
+          "title",
+          "description",
+        ],
+      });
       return allPosts;
     } catch (error) {
       throw error;

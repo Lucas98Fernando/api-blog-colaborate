@@ -31,7 +31,9 @@ class CategoryServices {
   }
   async getAll() {
     try {
-      const categories = await Category.findAll();
+      const categories = await Category.findAll({
+        attributes: ["id", "name", "slug"],
+      });
       return categories;
     } catch (error) {
       throw error;
