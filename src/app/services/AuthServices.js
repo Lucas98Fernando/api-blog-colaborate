@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
 class AuthServices {
   generateJwt(params = {}) {
     return jwt.sign({ params }, authConfig.secret, {
-      expiresIn: 86400,
+      expiresIn: "24h",
     });
   }
   async checkEmail(email) {
@@ -27,6 +27,8 @@ class AuthServices {
       if (hasEmail) throw new AuthError("E-mail já cadastrado!");
       if (!name || !idUserType || !email || !password)
         throw new AuthError("Existem campos inválidos");
+      if (password.length < 6)
+        throw new AuthError("A senha deve conter no mínimo 6 caracteres");
       else await User.create(body);
     } catch (error) {
       throw error;

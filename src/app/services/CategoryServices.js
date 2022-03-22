@@ -39,6 +39,33 @@ class CategoryServices {
       throw error;
     }
   }
+  async update(params, body) {
+    try {
+      const { idCategory } = params;
+      const { name, slug } = body;
+      const category = await this.findCategory(idCategory);
+      if (category === null)
+        throw new CategoryError("Categoria não encontrada!");
+      if (!name || !slug) throw new CategoryError("Existem campos inválidos!");
+      else {
+        category.update({ name, slug });
+        await category.save();
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+  async delete(params) {
+    try {
+      const { idCategory } = params;
+      const category = await this.findCategory(idCategory);
+      if (category === null)
+        throw new CategoryError("Categoria não encontrada!");
+      else await category.destroy();
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = new CategoryServices();

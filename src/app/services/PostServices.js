@@ -1,6 +1,7 @@
 const Post = require("../models/Post");
 const PostError = require("../errors/PostExceptions");
 const CategoryServices = require("../services/CategoryServices");
+const postAttributes = require("../../helpers/attributes/postAttributes");
 
 class PostServices {
   /*
@@ -25,14 +26,7 @@ class PostServices {
     try {
       const posts = await Post.findAll({
         where: { idAuthor: userId },
-        attributes: [
-          "id",
-          "idAuthor",
-          "idCategory",
-          "status",
-          "title",
-          "description",
-        ],
+        attributes: postAttributes,
       });
       return posts;
     } catch (error) {
@@ -42,14 +36,7 @@ class PostServices {
   async getAll() {
     try {
       const allPosts = await Post.findAll({
-        attributes: [
-          "id",
-          "idAuthor",
-          "idCategory",
-          "status",
-          "title",
-          "description",
-        ],
+        attributes: postAttributes,
       });
       return allPosts;
     } catch (error) {
@@ -58,7 +45,10 @@ class PostServices {
   }
   async getApproved() {
     try {
-      const approvedPosts = await Post.findAll({ where: { status: 2 } });
+      const approvedPosts = await Post.findAll({
+        where: { status: 2 },
+        attributes: postAttributes,
+      });
       return approvedPosts;
     } catch (error) {
       throw error;
@@ -66,7 +56,10 @@ class PostServices {
   }
   async getWaitingApproval() {
     try {
-      const waitingApproval = await Post.findAll({ where: { status: 1 } });
+      const waitingApproval = await Post.findAll({
+        where: { status: 1 },
+        attributes: postAttributes,
+      });
       return waitingApproval;
     } catch (error) {
       throw error;
