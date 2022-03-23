@@ -1,5 +1,5 @@
 const CategoryServices = require("../services/CategoryServices");
-const CategoryError = require("../errors/CategoryExceptions");
+const CategoryError = require("../errors/HandlerExceptions");
 
 class CategoryController {
   async create(request, response) {

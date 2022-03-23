@@ -1,5 +1,5 @@
 const Category = require("../models/Category");
-const CategoryError = require("../errors/CategoryExceptions");
+const CategoryError = require("../errors/HandlerExceptions");
 
 class CategoryServices {
   async checkExistence(body) {

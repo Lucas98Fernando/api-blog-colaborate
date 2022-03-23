@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const AuthError = require("../errors/AuthExceptions");
+const AuthError = require("../errors/HandlerExceptions");
 const jwt = require("jsonwebtoken");
 const authConfig = require("../../config/auth");
 const bcrypt = require("bcryptjs");

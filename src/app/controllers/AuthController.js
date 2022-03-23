@@ -1,5 +1,5 @@
 const AuthServices = require("../services/AuthServices");
-const AuthError = require("../errors/AuthExceptions");
+const AuthError = require("../errors/HandlerExceptions");
 
 class AuthController {
   async register(request, response) {

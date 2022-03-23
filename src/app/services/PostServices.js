@@ -1,5 +1,5 @@
 const Post = require("../models/Post");
-const PostError = require("../errors/PostExceptions");
+const PostError = require("../errors/HandlerExceptions");
 const CategoryServices = require("../services/CategoryServices");
 const postAttributes = require("../../helpers/attributes/postAttributes");
 
@@ -9,6 +9,15 @@ class PostServices {
     1 = Post waiting approval
     2 = Post approved
   */
+  async checkPostExists(params) {
+    try {
+      const { idPost } = params;
+      const post = await Post.findOne({ where: { id: idPost } });
+      return post;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
   async create(body, userId) {
     try {
       const { title, description, idCategory } = body;
@@ -61,6 +70,39 @@ class PostServices {
         attributes: postAttributes,
       });
       return waitingApproval;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async approval(params) {
+    try {
+      const post = await this.checkPostExists(params);
+      if (post === null) throw new PostError("O post não existe");
+      if (post.status === 2) throw new PostError("O post já foi aprovado");
+      else {
+        post.update({ status: 2 });
+        await post.save();
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+  async update(params, body, userId, idUserType) {
+    try {
+      const post = await this.checkPostExists(params);
+      const { title, description, idCategory } = body;
+      if (post === null) throw new PostError("O post não existe");
+      if (post.idAuthor !== userId)
+        throw new PostError("Você não pode atualizar esse post");
+      else {
+        post.update({
+          title,
+          description,
+          idCategory,
+          status: idUserType === 1 ? 2 : 1,
+        });
+        await post.save();
+      }
     } catch (error) {
       throw error;
     }
