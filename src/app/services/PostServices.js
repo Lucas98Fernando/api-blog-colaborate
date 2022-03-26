@@ -1,7 +1,7 @@
-const Post = require("../models/Post");
-const PostError = require("../errors/HandlerExceptions");
-const CategoryServices = require("../services/CategoryServices");
-const postAttributes = require("../../helpers/attributes/postAttributes");
+const Post = require("@models/Post");
+const PostError = require("@errors/HandlerExceptions");
+const CategoryServices = require("@services/CategoryServices");
+const postAttributes = require("@/helpers/attributes/postAttributes");
 
 class PostServices {
   /*

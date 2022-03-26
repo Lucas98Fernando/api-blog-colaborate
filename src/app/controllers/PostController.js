@@ -1,5 +1,5 @@
-const PostServices = require("../services/PostServices");
-const PostError = require("../errors/HandlerExceptions");
+const PostServices = require("@services/PostServices");
+const PostError = require("@errors/HandlerExceptions");
 
 class PostController {
   async create(request, response) {
