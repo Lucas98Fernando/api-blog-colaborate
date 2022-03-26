@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize");
-const db = require("../../database/connection");
+const db = require("@database/connection");
 const Category = require("./Category");
 
 const Post = db.sequelize.define("posts", {
@@ -17,6 +17,10 @@ const Post = db.sequelize.define("posts", {
     type: DataTypes.INTEGER,
     allowNull: false,
     defaultValue: 1,
+  },
+  slug: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   title: {
     type: DataTypes.STRING,

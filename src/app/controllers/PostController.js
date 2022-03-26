@@ -1,5 +1,5 @@
-const PostServices = require("../services/PostServices");
-const PostError = require("../errors/PostExceptions");
+const PostServices = require("@services/PostServices");
+const PostError = require("@errors/HandlerExceptions");
 
 class PostController {
   async create(request, response) {
@@ -49,7 +49,47 @@ class PostController {
     try {
       const waitingApproval = await PostServices.getWaitingApproval();
       return response.status(200).json(waitingApproval);
-    } catch (error) {}
+    } catch (error) {
+      return response
+        .status(400)
+        .json({ error: "Não foi possível listar as postagens" });
+    }
+  }
+  async approval(request, response) {
+    try {
+      await PostServices.approval(request.params);
+      return response
+        .status(200)
+        .json({ message: "Post aprovado com sucesso!" });
+    } catch (error) {
+      if (error instanceof PostError)
+        return response.status(error.status).json({ error: error.message });
+      else
+        return response
+          .status(400)
+          .json({ error: "Não foi possível aprovar a postagem" });
+    }
+  }
+  async update(request, response) {
+    try {
+      await PostServices.update(
+        request.params,
+        request.body,
+        request.userId,
+        request.idUserType
+      );
+      return response
+        .status(200)
+        .json({ message: "Post atualizado com sucesso!" });
+    } catch (error) {
+      console.error(error);
+      if (error instanceof PostError)
+        return response.status(error.status).json({ error: error.message });
+      else
+        return response
+          .status(400)
+          .json({ error: "Não foi possível atualizar a postagem" });
+    }
   }
 }
 
