@@ -20,11 +20,11 @@ class PostServices {
   }
   async create(body, userId) {
     try {
-      const { title, description, idCategory } = body;
+      const { title, description, slug, idCategory } = body;
       const categoryExists = await CategoryServices.findCategory(idCategory);
       if (categoryExists === null)
         throw new PostError("A categoria informada na postagem não existe");
-      if (!title || !description || !idCategory)
+      if (!title || !description || !slug || !idCategory)
         throw new PostError("Existem campos inválidos");
       else await Post.create({ ...body, idAuthor: userId });
     } catch (error) {
@@ -90,7 +90,7 @@ class PostServices {
   async update(params, body, userId, idUserType) {
     try {
       const post = await this.checkPostExists(params);
-      const { title, description, idCategory } = body;
+      const { title, description, slug, idCategory } = body;
       if (post === null) throw new PostError("O post não existe");
       if (post.idAuthor !== userId)
         throw new PostError("Você não pode atualizar esse post");
@@ -98,6 +98,7 @@ class PostServices {
         post.update({
           title,
           description,
+          slug,
           idCategory,
           status: idUserType === 1 ? 2 : 1,
         });

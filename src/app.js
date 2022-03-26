@@ -1,7 +1,12 @@
+// Core modules
 const express = require("express");
 const cors = require("cors");
 require("dotenv/config");
 require("module-alias/register");
+
+// Swagger
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocsV1 = require("@/docs/v1/swagger.json");
 
 // Module routes
 const authRoutes = require("./routes/auth");
@@ -27,6 +32,11 @@ class App {
     this.express.use("/auth", authRoutes);
     this.express.use("/post", postRoutes);
     this.express.use("/category", categoryRoutes);
+    this.express.use(
+      "/v1/api-docs",
+      swaggerUi.serve,
+      swaggerUi.setup(swaggerDocsV1)
+    );
   }
 }
 

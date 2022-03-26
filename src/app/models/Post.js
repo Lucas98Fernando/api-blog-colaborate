@@ -18,6 +18,10 @@ const Post = db.sequelize.define("posts", {
     allowNull: false,
     defaultValue: 1,
   },
+  slug: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   title: {
     type: DataTypes.STRING,
     allowNull: false,

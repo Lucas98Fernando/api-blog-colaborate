@@ -5,6 +5,7 @@ const postAttributes = [
   "status",
   "title",
   "description",
+  "slug",
 ];
 
 module.exports = postAttributes;
