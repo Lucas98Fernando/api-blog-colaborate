@@ -1,5 +1,4 @@
 function isAdmin(request, response, next) {
-  console.log(request.idUserType);
   if (request.idUserType === 1) return next();
   else
     return response

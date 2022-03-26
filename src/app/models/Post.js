@@ -30,6 +30,10 @@ const Post = db.sequelize.define("posts", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  image: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 });
 
 Category.hasOne(Post, { foreignKey: "idCategory" });
