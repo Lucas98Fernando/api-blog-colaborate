@@ -3,9 +3,10 @@ const routes = Router();
 const PostController = require("@controllers/PostController");
 const AuthMiddleware = require("@middlewares/auth");
 const AdminMiddleware = require("@middlewares/Admin");
+const Multer = require("@middlewares/Multer");
 
 // POST
-routes.post("/create", AuthMiddleware, PostController.create);
+routes.post("/create", AuthMiddleware, Multer.upload, PostController.create);
 
 // PUT
 routes.put(

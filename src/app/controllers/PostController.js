@@ -4,7 +4,7 @@ const PostError = require("@errors/HandlerExceptions");
 class PostController {
   async create(request, response) {
     try {
-      await PostServices.create(request.body, request.userId);
+      await PostServices.create(request.body, request.file, request.userId);
       return response.status(201).json("Post criado com sucesso!");
     } catch (error) {
       if (error instanceof PostError)

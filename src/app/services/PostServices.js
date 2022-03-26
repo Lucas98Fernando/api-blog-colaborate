@@ -18,7 +18,7 @@ class PostServices {
       throw new Error(error);
     }
   }
-  async create(body, userId) {
+  async create(body, file, userId) {
     try {
       const { title, description, slug, idCategory } = body;
       const categoryExists = await CategoryServices.findCategory(idCategory);
@@ -26,7 +26,7 @@ class PostServices {
         throw new PostError("A categoria informada na postagem não existe");
       if (!title || !description || !slug || !idCategory)
         throw new PostError("Existem campos inválidos");
-      else await Post.create({ ...body, idAuthor: userId });
+      else await Post.create({ ...body, image: file.path, idAuthor: userId });
     } catch (error) {
       throw error;
     }

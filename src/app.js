@@ -37,6 +37,8 @@ class App {
       swaggerUi.serve,
       swaggerUi.setup(swaggerDocsV1)
     );
+    // static folder
+    this.express.use("/uploads", express.static("../uploads"));
   }
 }
 
