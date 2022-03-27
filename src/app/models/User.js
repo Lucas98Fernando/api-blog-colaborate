@@ -29,6 +29,12 @@ const User = db.sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    tokenRecoverAccount: {
+      type: DataTypes.STRING,
+    },
+    timeTokenRecoverAccount: {
+      type: DataTypes.DATE,
+    },
   },
   {
     hooks: {
