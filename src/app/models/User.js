@@ -24,6 +24,7 @@ const User = db.sequelize.define(
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     password: {
       type: DataTypes.STRING,
@@ -34,6 +35,10 @@ const User = db.sequelize.define(
     },
     timeTokenRecoverAccount: {
       type: DataTypes.DATE,
+    },
+    tokenTimesUsed: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
     },
   },
   {

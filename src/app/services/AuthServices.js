@@ -75,6 +75,7 @@ class AuthServices {
         user.update({
           tokenRecoverAccount: token,
           timeTokenRecoverAccount: currentDate,
+          tokenTimesUsed: 0,
         });
         await user.save();
 
@@ -103,20 +104,21 @@ class AuthServices {
     try {
       const { token, email, password } = body;
       const user = await this.checkEmail(email);
+      const currentDate = new Date();
 
       if (!user) throw new AuthError("Usuário não encontrado");
       if (!token || !email || !password)
         throw new AuthError("Existem campos inválidos");
       if (token !== user.tokenRecoverAccount)
         throw new AuthError("Token inválido!");
-
-      const currentDate = new Date();
-
+      if (user.tokenTimesUsed > 0)
+        throw new AuthError("Token já utilizado! Solicite um novo");
       if (currentDate > user.timeTokenRecoverAccount)
         throw new AuthError("O token expirou!");
       else {
         user.set({
           password: password,
+          tokenTimesUsed: 1,
         });
         await user.save();
       }
