@@ -1,9 +1,9 @@
 const { Router } = require("express");
 const routes = Router();
-const PostController = require("@controllers/PostController");
-const AuthMiddleware = require("@middlewares/auth");
-const AdminMiddleware = require("@middlewares/Admin");
-const Multer = require("@middlewares/Multer");
+const PostController = require("../app/controllers/PostController");
+const AuthMiddleware = require("../middlewares/auth");
+const AdminMiddleware = require("../middlewares/Admin");
+const Multer = require("../middlewares/Multer");
 
 // POST
 routes.post("/create", AuthMiddleware, Multer.upload, PostController.create);
@@ -15,7 +15,12 @@ routes.put(
   AdminMiddleware,
   PostController.approval
 );
-routes.put("/update/:idPost", AuthMiddleware, PostController.update);
+routes.put(
+  "/update/:idPost",
+  AuthMiddleware,
+  Multer.upload,
+  PostController.update
+);
 
 // GET
 routes.get("/get-all", AuthMiddleware, PostController.getAll);

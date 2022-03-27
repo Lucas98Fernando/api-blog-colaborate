@@ -1,10 +1,10 @@
-const User = require("@models/User");
-const AuthError = require("@errors/HandlerExceptions");
-const authConfig = require("@config/auth");
+const User = require("../models/User");
+const AuthError = require("../errors/HandlerExceptions");
+const authConfig = require("../../config/auth");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
-const mailer = require("@/email/mailer");
+const mailer = require("../../email/mailer");
 
 class AuthServices {
   generateJwt(params = {}) {
@@ -115,7 +115,7 @@ class AuthServices {
       if (currentDate > user.timeTokenRecoverAccount)
         throw new AuthError("O token expirou!");
       else {
-        user.update({
+        user.set({
           password: password,
         });
         await user.save();

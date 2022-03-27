@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize");
-const db = require("@database/connection");
+const db = require("../../database/connection");
 const bcrypt = require("bcryptjs");
 const post = require("./Post");
 
