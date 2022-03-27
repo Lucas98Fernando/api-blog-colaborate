@@ -5,6 +5,7 @@ const postAttributes = [
   "status",
   "title",
   "description",
+  "image",
   "slug",
 ];
 

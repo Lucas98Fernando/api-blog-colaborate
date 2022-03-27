@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize");
-const db = require("@database/connection");
+const db = require("../../database/connection");
 const Category = require("./Category");
 
 const Post = db.sequelize.define("posts", {
@@ -39,6 +39,6 @@ const Post = db.sequelize.define("posts", {
 Category.hasOne(Post, { foreignKey: "idCategory" });
 Post.belongsTo(Category, { foreignKey: "idCategory" });
 
-// Post.sync();
+// Post.sync({force: true});
 
 module.exports = Post;

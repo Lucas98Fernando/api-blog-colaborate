@@ -1,7 +1,7 @@
-const Post = require("@models/Post");
-const PostError = require("@errors/HandlerExceptions");
-const CategoryServices = require("@services/CategoryServices");
-const postAttributes = require("@/helpers/attributes/postAttributes");
+const Post = require("../models/Post");
+const PostError = require("../errors/HandlerExceptions");
+const CategoryServices = require("../services/CategoryServices");
+const postAttributes = require("../../helpers/attributes/postAttributes");
 
 class PostServices {
   /*
@@ -87,19 +87,22 @@ class PostServices {
       throw error;
     }
   }
-  async update(params, body, userId, idUserType) {
+  async update(params, body, file, userId, idUserType) {
     try {
       const post = await this.checkPostExists(params);
       const { title, description, slug, idCategory } = body;
       if (post === null) throw new PostError("O post não existe");
+      if (!title || !description || !slug || !idCategory)
+        throw new PostError("Existem campos inválidos");
       if (post.idAuthor !== userId)
         throw new PostError("Você não pode atualizar esse post");
       else {
         post.update({
-          title,
-          description,
-          slug,
-          idCategory,
+          title: title,
+          description: description,
+          slug: slug,
+          idCategory: idCategory,
+          image: file.path,
           status: idUserType === 1 ? 2 : 1,
         });
         await post.save();

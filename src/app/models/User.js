@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize");
-const db = require("@database/connection");
+const db = require("../../database/connection");
 const bcrypt = require("bcryptjs");
 const post = require("./Post");
 
@@ -24,10 +24,21 @@ const User = db.sequelize.define(
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    tokenRecoverAccount: {
+      type: DataTypes.STRING,
+    },
+    timeTokenRecoverAccount: {
+      type: DataTypes.DATE,
+    },
+    tokenTimesUsed: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
     },
   },
   {
