@@ -41,9 +41,9 @@ class CategoryServices {
   }
   async update(params, body) {
     try {
-      const { idCategory } = params;
+      const { id_category } = params;
       const { name, slug } = body;
-      const category = await this.findCategory(idCategory);
+      const category = await this.findCategory(id_category);
       if (category === null)
         throw new CategoryError("Categoria não encontrada!");
       if (!name || !slug) throw new CategoryError("Existem campos inválidos!");
@@ -57,8 +57,8 @@ class CategoryServices {
   }
   async delete(params) {
     try {
-      const { idCategory } = params;
-      const category = await this.findCategory(idCategory);
+      const { id_category } = params;
+      const category = await this.findCategory(id_category);
       if (category === null)
         throw new CategoryError("Categoria não encontrada!");
       else await category.destroy();

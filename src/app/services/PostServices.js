@@ -20,13 +20,13 @@ class PostServices {
   }
   async create(body, file, userId) {
     try {
-      const { title, description, slug, idCategory } = body;
-      const categoryExists = await CategoryServices.findCategory(idCategory);
+      const { title, description, slug, id_category } = body;
+      const categoryExists = await CategoryServices.findCategory(id_category);
       if (categoryExists === null)
         throw new PostError("A categoria informada na postagem não existe");
-      if (!title || !description || !slug || !idCategory)
+      if (!title || !description || !slug || !id_category)
         throw new PostError("Existem campos inválidos");
-      else await Post.create({ ...body, image: file.path, idAuthor: userId });
+      else await Post.create({ ...body, image: file.path, id_author: userId });
     } catch (error) {
       throw error;
     }
@@ -34,7 +34,7 @@ class PostServices {
   async getByUser(userId) {
     try {
       const posts = await Post.findAll({
-        where: { idAuthor: userId },
+        where: { id_author: userId },
         attributes: postAttributes,
       });
       return posts;
@@ -90,18 +90,18 @@ class PostServices {
   async update(params, body, file, userId, idUserType) {
     try {
       const post = await this.checkPostExists(params);
-      const { title, description, slug, idCategory } = body;
+      const { title, description, slug, id_category } = body;
       if (post === null) throw new PostError("O post não existe");
-      if (!title || !description || !slug || !idCategory)
+      if (!title || !description || !slug || !id_category)
         throw new PostError("Existem campos inválidos");
-      if (post.idAuthor !== userId)
+      if (post.id_author !== userId)
         throw new PostError("Você não pode atualizar esse post");
       else {
         post.update({
           title: title,
           description: description,
           slug: slug,
-          idCategory: idCategory,
+          id_category: id_category,
           image: file.path,
           status: idUserType === 1 ? 2 : 1,
         });

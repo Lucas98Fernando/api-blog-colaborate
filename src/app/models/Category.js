@@ -1,23 +1,21 @@
-const { Sequelize, DataTypes } = require("sequelize");
-const db = require("../../database/connection");
+const { DataTypes, Model } = require("sequelize");
 
-const Category = db.sequelize.define("categories", {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-    allowNull: false,
-  },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  slug: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-});
-
-// Category.sync({ alter: true });
+class Category extends Model {
+  static init(sequelize) {
+    super.init(
+      {
+        name: DataTypes.STRING,
+        slug: DataTypes.STRING,
+      },
+      { sequelize }
+    );
+  }
+  static associate(models) {
+    this.hasOne(models.Post, {
+      foreignKey: "id_category",
+      as: "post",
+    });
+  }
+}
 
 module.exports = Category;

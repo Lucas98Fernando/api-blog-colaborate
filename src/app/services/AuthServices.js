@@ -24,11 +24,11 @@ class AuthServices {
   }
   async register(body) {
     try {
-      const { name, idUserType, email, password } = body;
+      const { name, email, password } = body;
       const hasEmail = await this.checkEmail(email);
 
       if (hasEmail) throw new AuthError("E-mail já cadastrado!");
-      if (!name || !idUserType || !email || !password)
+      if (!name || !email || !password)
         throw new AuthError("Existem campos inválidos");
       if (password.length < 6)
         throw new AuthError("A senha deve conter no mínimo 6 caracteres");
@@ -46,14 +46,14 @@ class AuthServices {
       if (!(await bcrypt.compare(password, user.password)))
         throw new AuthError("E-mail ou senha incorretos", 401);
       else {
-        const { id, idUserType, name, email } = user;
+        const { id, id_user_type, name, email } = user;
         return {
           user: {
-            idUserType,
+            id_user_type,
             name,
             email,
           },
-          token: this.generateJwt({ id, idUserType }),
+          token: this.generateJwt({ id, id_user_type }),
         };
       }
     } catch (error) {

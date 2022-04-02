@@ -20,7 +20,7 @@ class AuthController {
   async login(request, response) {
     try {
       const userData = await AuthServices.login(request.body);
-      return response.status(200).json(userData);
+      return response.json(userData);
     } catch (error) {
       if (error instanceof AuthError)
         return response.status(error.status).json({ error: error.message });
@@ -33,7 +33,7 @@ class AuthController {
   async forgotPassword(request, response) {
     try {
       await AuthServices.forgotPassword(request.body);
-      return response.status(200).json();
+      return response.json();
     } catch (error) {
       if (error instanceof AuthError)
         return response.status(error.status).json({ error: error.message });

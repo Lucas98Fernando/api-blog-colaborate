@@ -7,6 +7,7 @@ class PostController {
       await PostServices.create(request.body, request.file, request.userId);
       return response.status(201).json("Post criado com sucesso!");
     } catch (error) {
+      console.log(error);
       if (error instanceof PostError)
         return response.status(error.status).json({ error: error.message });
       else
@@ -18,7 +19,7 @@ class PostController {
   async getByUser(request, response) {
     try {
       const postsByUser = await PostServices.getByUser(request.userId);
-      return response.status(200).json(postsByUser);
+      return response.json(postsByUser);
     } catch (error) {
       return response
         .status(400)
@@ -28,7 +29,7 @@ class PostController {
   async getAll(request, response) {
     try {
       const allPosts = await PostServices.getAll();
-      return response.status(200).json(allPosts);
+      return response.json(allPosts);
     } catch (error) {
       return response
         .status(400)
@@ -38,7 +39,7 @@ class PostController {
   async getApproved(request, response) {
     try {
       const approvedPosts = await PostServices.getApproved();
-      return response.status(200).json(approvedPosts);
+      return response.json(approvedPosts);
     } catch (error) {
       return response
         .status(400)
@@ -48,7 +49,7 @@ class PostController {
   async getWaitingApproval(request, response) {
     try {
       const waitingApproval = await PostServices.getWaitingApproval();
-      return response.status(200).json(waitingApproval);
+      return response.json(waitingApproval);
     } catch (error) {
       return response
         .status(400)
@@ -58,9 +59,7 @@ class PostController {
   async approval(request, response) {
     try {
       await PostServices.approval(request.params);
-      return response
-        .status(200)
-        .json({ message: "Post aprovado com sucesso!" });
+      return response.json({ message: "Post aprovado com sucesso!" });
     } catch (error) {
       if (error instanceof PostError)
         return response.status(error.status).json({ error: error.message });
@@ -77,11 +76,9 @@ class PostController {
         request.body,
         request.file,
         request.userId,
-        request.idUserType
+        request.id_user_type
       );
-      return response
-        .status(200)
-        .json({ message: "Post atualizado com sucesso!" });
+      return response.json({ message: "Post atualizado com sucesso!" });
     } catch (error) {
       console.error(error);
       if (error instanceof PostError)

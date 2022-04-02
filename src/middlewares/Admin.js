@@ -1,5 +1,5 @@
 function isAdmin(request, response, next) {
-  if (request.idUserType === 1) return next();
+  if (request.id_user_type === 1) return next();
   else
     return response
       .status(403)
