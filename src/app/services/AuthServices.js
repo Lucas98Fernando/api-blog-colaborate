@@ -73,9 +73,9 @@ class AuthServices {
         currentDate.setHours(currentDate.getHours() + 1);
 
         user.update({
-          tokenRecoverAccount: token,
-          timeTokenRecoverAccount: currentDate,
-          tokenTimesUsed: 0,
+          token_recover_account: token,
+          time_token_recover_account: currentDate,
+          token_times_used: 0,
         });
         await user.save();
 
@@ -109,16 +109,16 @@ class AuthServices {
       if (!user) throw new AuthError("Usuário não encontrado");
       if (!token || !email || !password)
         throw new AuthError("Existem campos inválidos");
-      if (token !== user.tokenRecoverAccount)
+      if (token !== user.token_recover_account)
         throw new AuthError("Token inválido!");
-      if (user.tokenTimesUsed > 0)
+      if (user.token_times_used > 0)
         throw new AuthError("Token já utilizado! Solicite um novo");
-      if (currentDate > user.timeTokenRecoverAccount)
+      if (currentDate > user.time_token_recover_account)
         throw new AuthError("O token expirou!");
       else {
         user.set({
           password: password,
-          tokenTimesUsed: 1,
+          token_times_used: 1,
         });
         await user.save();
       }

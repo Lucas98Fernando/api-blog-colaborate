@@ -15,12 +15,14 @@ const connection = new Sequelize(dbConfig);
   }
 })();
 
-Post.init(connection);
-User.init(connection);
-Category.init(connection);
+const models = [Post, User, Category];
 
-Post.associate(connection.models);
-User.associate(connection.models);
-Category.associate(connection.models);
+for (let i in models) {
+  models[i].init(connection);
+}
+
+for (let i in models) {
+  models[i].associate(connection.models);
+}
 
 module.exports = connection;

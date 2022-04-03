@@ -9,7 +9,6 @@ class CategoryController {
         .status(201)
         .json({ message: "Categoria cadastrada com sucesso!" });
     } catch (error) {
-      console.log(error);
       if (error instanceof CategoryError)
         return response.status(error.status).json({ error: error.message });
       else

@@ -4,10 +4,9 @@ const PostError = require("../errors/HandlerExceptions");
 class PostController {
   async create(request, response) {
     try {
-      await PostServices.create(request.body, request.file, request.userId);
+      await PostServices.create(request.body, request.file, request.user_id);
       return response.status(201).json("Post criado com sucesso!");
     } catch (error) {
-      console.log(error);
       if (error instanceof PostError)
         return response.status(error.status).json({ error: error.message });
       else
@@ -18,7 +17,7 @@ class PostController {
   }
   async getByUser(request, response) {
     try {
-      const postsByUser = await PostServices.getByUser(request.userId);
+      const postsByUser = await PostServices.getByUser(request.user_id);
       return response.json(postsByUser);
     } catch (error) {
       return response
@@ -75,12 +74,11 @@ class PostController {
         request.params,
         request.body,
         request.file,
-        request.userId,
+        request.user_id,
         request.id_user_type
       );
       return response.json({ message: "Post atualizado com sucesso!" });
     } catch (error) {
-      console.error(error);
       if (error instanceof PostError)
         return response.status(error.status).json({ error: error.message });
       else

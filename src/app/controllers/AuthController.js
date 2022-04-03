@@ -46,7 +46,7 @@ class AuthController {
   async recoverAccount(request, response) {
     try {
       await AuthServices.recoverAccount(request.body);
-      return response.status(200).json();
+      return response.json();
     } catch (error) {
       if (error instanceof AuthError)
         return response.status(error.status).json({ error: error.message });
