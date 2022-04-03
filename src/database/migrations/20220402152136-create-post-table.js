@@ -20,8 +20,6 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: { model: "categories", key: "id" },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
       },
       status: {
         type: Sequelize.INTEGER,
