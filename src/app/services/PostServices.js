@@ -111,6 +111,17 @@ class PostServices {
       throw error;
     }
   }
+  async delete(params, userId) {
+    try {
+      const post = await this.checkPostExists(params);
+      if (post === null) throw new PostError("O post não existe");
+      if (post.id_author !== userId)
+        throw new PostError("Você não pode atualizar esse post");
+      else await post.destroy();
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = new PostServices();

@@ -87,6 +87,19 @@ class PostController {
           .json({ error: "Não foi possível atualizar a postagem" });
     }
   }
+  async delete(request, response) {
+    try {
+      await PostServices.delete(request.params, request.user_id);
+      return response.json();
+    } catch (error) {
+      if (error instanceof PostError)
+        return response.status(error.status).json({ error: error.message });
+      else
+        return response
+          .status(400)
+          .json({ error: "Não foi possível excluir a postagem" });
+    }
+  }
 }
 
 module.exports = new PostController();

@@ -32,4 +32,7 @@ routes.get(
   PostController.getWaitingApproval
 );
 
+// DELETE
+routes.delete("/delete/:idPost", AuthMiddleware, PostController.delete);
+
 module.exports = routes;
