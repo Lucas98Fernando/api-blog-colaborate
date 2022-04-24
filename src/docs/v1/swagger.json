@@ -159,7 +159,7 @@
           "user": {
             "type": "object",
             "properties": {
-              "idUserType": { "type": "number" },
+              "id_user_type": { "type": "number" },
               "name": { "type": "string" },
               "email": { "type": "string" }
             }
@@ -173,8 +173,8 @@
         "type": "object",
         "properties": {
           "id": { "type": "number" },
-          "idAuthor": { "type": "number" },
-          "idCategory": { "type": "number" },
+          "id_author": { "type": "number" },
+          "id_category": { "type": "number" },
           "status": { "type": "number" },
           "title": { "type": "string" },
           "description": { "type": "string" },

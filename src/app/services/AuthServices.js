@@ -24,11 +24,11 @@ class AuthServices {
   }
   async register(body) {
     try {
-      const { name, idUserType, email, password } = body;
+      const { name, email, password } = body;
       const hasEmail = await this.checkEmail(email);
 
       if (hasEmail) throw new AuthError("E-mail já cadastrado!");
-      if (!name || !idUserType || !email || !password)
+      if (!name || !email || !password)
         throw new AuthError("Existem campos inválidos");
       if (password.length < 6)
         throw new AuthError("A senha deve conter no mínimo 6 caracteres");
@@ -46,14 +46,14 @@ class AuthServices {
       if (!(await bcrypt.compare(password, user.password)))
         throw new AuthError("E-mail ou senha incorretos", 401);
       else {
-        const { id, idUserType, name, email } = user;
+        const { id, id_user_type, name, email } = user;
         return {
           user: {
-            idUserType,
+            id_user_type,
             name,
             email,
           },
-          token: this.generateJwt({ id, idUserType }),
+          token: this.generateJwt({ id, id_user_type }),
         };
       }
     } catch (error) {
@@ -73,9 +73,9 @@ class AuthServices {
         currentDate.setHours(currentDate.getHours() + 1);
 
         user.update({
-          tokenRecoverAccount: token,
-          timeTokenRecoverAccount: currentDate,
-          tokenTimesUsed: 0,
+          token_recover_account: token,
+          time_token_recover_account: currentDate,
+          token_times_used: 0,
         });
         await user.save();
 
@@ -109,16 +109,16 @@ class AuthServices {
       if (!user) throw new AuthError("Usuário não encontrado");
       if (!token || !email || !password)
         throw new AuthError("Existem campos inválidos");
-      if (token !== user.tokenRecoverAccount)
+      if (token !== user.token_recover_account)
         throw new AuthError("Token inválido!");
-      if (user.tokenTimesUsed > 0)
+      if (user.token_times_used > 0)
         throw new AuthError("Token já utilizado! Solicite um novo");
-      if (currentDate > user.timeTokenRecoverAccount)
+      if (currentDate > user.time_token_recover_account)
         throw new AuthError("O token expirou!");
       else {
         user.set({
           password: password,
-          tokenTimesUsed: 1,
+          token_times_used: 1,
         });
         await user.save();
       }

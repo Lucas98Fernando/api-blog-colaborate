@@ -1,15 +1,28 @@
-const { Sequelize } = require("sequelize");
+const Sequelize = require("sequelize");
 const dbConfig = require("../config/db");
+const Post = require("../app/models/Post");
+const User = require("../app/models/User");
+const Category = require("../app/models/Category");
 
-const sequelize = new Sequelize(dbConfig);
+const connection = new Sequelize(dbConfig);
 
-(async function testConnection() {
+(async () => {
   try {
-    await sequelize.authenticate();
+    await connection.authenticate();
     console.info("Conexão estabelecida!");
   } catch (error) {
     console.error(`Ocorreu um erro ${error}`);
   }
 })();
 
-module.exports = { Sequelize, sequelize };
+const models = [Post, User, Category];
+
+for (let i in models) {
+  models[i].init(connection);
+}
+
+for (let i in models) {
+  models[i].associate(connection.models);
+}
+
+module.exports = connection;

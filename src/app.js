@@ -1,13 +1,16 @@
 // Core modules
 const express = require("express");
 const cors = require("cors");
+
+// Configs
 require("dotenv/config");
+require("./database/connection");
 
 // Swagger
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocsV1 = require("./docs/v1/swagger.json");
 
-// Module routes
+// App routes
 const authRoutes = require("./routes/auth");
 const postRoutes = require("./routes/post");
 const categoryRoutes = require("./routes/category");

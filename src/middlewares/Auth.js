@@ -22,9 +22,9 @@ function Authorization(request, response, next) {
   jwt.verify(token, authConfig.secret, (error, decoded) => {
     if (error)
       response.status(401).json({ error: "Token inválido para utilização" });
-    const { id, idUserType } = decoded.params;
-    request.userId = id;
-    request.idUserType = idUserType;
+    const { id, id_user_type } = decoded.params;
+    request.user_id = id;
+    request.id_user_type = id_user_type;
     return next();
   });
 }

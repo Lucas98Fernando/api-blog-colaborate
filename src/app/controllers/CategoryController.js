@@ -20,7 +20,7 @@ class CategoryController {
   async getAll(request, response) {
     try {
       const categories = await CategoryServices.getAll();
-      return response.status(200).json(categories);
+      return response.json(categories);
     } catch (error) {
       return response
         .status(400)
@@ -30,9 +30,7 @@ class CategoryController {
   async update(request, response) {
     try {
       await CategoryServices.update(request.params, request.body);
-      return response
-        .status(200)
-        .json({ message: "Categoria atualizada com sucesso!" });
+      return response.json({ message: "Categoria atualizada com sucesso!" });
     } catch (error) {
       if (error instanceof CategoryError)
         return response.status(error.status).json({ error: error.message });
@@ -45,9 +43,7 @@ class CategoryController {
   async delete(request, response) {
     try {
       await CategoryServices.delete(request.params);
-      return response
-        .status(200)
-        .json({ message: "Categoria excluída com sucesso!" });
+      return response.json({ message: "Categoria excluída com sucesso!" });
     } catch (error) {
       if (error instanceof CategoryError)
         return response.status(error.status).json({ error: error.message });
