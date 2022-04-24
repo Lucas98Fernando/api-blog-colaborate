@@ -2,7 +2,10 @@
   "name": "api-blog-colaborate",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/server.js",
+  "engines": {
+    "node": "14.17.6"
+  },
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
