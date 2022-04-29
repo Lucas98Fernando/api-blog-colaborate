@@ -4,7 +4,9 @@ const Post = require("../app/models/Post");
 const User = require("../app/models/User");
 const Category = require("../app/models/Category");
 
-const connection = new Sequelize(dbConfig);
+const currentEnvironment = process.env.NODE_ENV;
+
+const connection = new Sequelize(dbConfig[currentEnvironment]);
 
 (async () => {
   try {
