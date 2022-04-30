@@ -3,13 +3,13 @@ const AuthError = require("../errors/HandlerExceptions");
 const authConfig = require("../../config/auth");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const crypto = require("crypto");
+// const crypto = require("crypto");
 const mailer = require("../../email/mailer");
 
 class AuthServices {
-  generateJwt(params = {}) {
+  generateJwt(params = {}, expiresIn = "24h") {
     return jwt.sign({ params }, authConfig.secret, {
-      expiresIn: "24h",
+      expiresIn: expiresIn,
     });
   }
   async checkEmail(email) {
@@ -67,7 +67,8 @@ class AuthServices {
 
       if (!user) throw new AuthError("Usuário não encontrado");
       else {
-        const token = crypto.randomBytes(20).toString("hex");
+        // const token = crypto.randomBytes(20).toString("hex");
+        const token = this.generateJwt({ email }, "1h");
         const currentDate = new Date();
 
         currentDate.setHours(currentDate.getHours() + 1);

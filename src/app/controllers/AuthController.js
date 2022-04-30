@@ -43,6 +43,15 @@ class AuthController {
           .json({ error: "Não foi possível enviar o e-mail" });
     }
   }
+  async recoverAccountValidateToken(request, response) {
+    try {
+      return response.json({ email: request.email_recover_account });
+    } catch {
+      return response
+        .status(400)
+        .json({ error: "Token inválido para utilização" });
+    }
+  }
   async recoverAccount(request, response) {
     try {
       await AuthServices.recoverAccount(request.body);
