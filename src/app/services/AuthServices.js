@@ -101,6 +101,15 @@ class AuthServices {
       }
     );
   }
+  async recoverAccountValidateToken(email) {
+    try {
+      const user = await this.checkEmail(email);
+      if (user.token_times_used > 0)
+        throw new AuthError("Token já utilizado! Solicite um novo");
+    } catch (error) {
+      throw error;
+    }
+  }
   async recoverAccount(body) {
     try {
       const { token, email, password } = body;

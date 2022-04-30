@@ -45,10 +45,12 @@ class AuthController {
   }
   async recoverAccountValidateToken(request, response) {
     try {
-      return response.json({ email: request.email_recover_account });
+      const userEmail = request.email_recover_account;
+      await AuthServices.recoverAccountValidateToken(userEmail);
+      return response.json({ email: userEmail });
     } catch {
       return response
-        .status(400)
+        .status(403)
         .json({ error: "Token inválido para utilização" });
     }
   }
