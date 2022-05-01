@@ -45,9 +45,8 @@ class AuthController {
   }
   async recoverAccountValidateToken(request, response) {
     try {
-      const userEmail = request.email_recover_account;
-      await AuthServices.recoverAccountValidateToken(userEmail);
-      return response.json({ email: userEmail });
+      await AuthServices.recoverAccountValidateToken(request.params.token);
+      return response.json();
     } catch {
       return response
         .status(403)

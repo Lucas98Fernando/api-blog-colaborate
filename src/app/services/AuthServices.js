@@ -3,7 +3,7 @@ const AuthError = require("../errors/HandlerExceptions");
 const authConfig = require("../../config/auth");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-// const crypto = require("crypto");
+const crypto = require("crypto");
 const mailer = require("../../email/mailer");
 
 class AuthServices {
@@ -67,8 +67,8 @@ class AuthServices {
 
       if (!user) throw new AuthError("Usuário não encontrado");
       else {
-        // const token = crypto.randomBytes(20).toString("hex");
-        const token = this.generateJwt({ email }, "1h");
+        const token = crypto.randomBytes(20).toString("hex");
+        // const token = this.generateJwt({ email }, "1h");
         const currentDate = new Date();
 
         currentDate.setHours(currentDate.getHours() + 1);
@@ -102,9 +102,13 @@ class AuthServices {
       }
     );
   }
-  async recoverAccountValidateToken(email) {
+  async recoverAccountValidateToken(token) {
     try {
-      const user = await this.checkEmail(email);
+      const user = await User.findOne({
+        where: { token_recover_account: token },
+      });
+      console.log(user);
+      if (!user) throw new AuthError("Token inválido!");
       if (user.token_times_used > 0)
         throw new AuthError("Token já utilizado! Solicite um novo");
     } catch (error) {
