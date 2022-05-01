@@ -5,6 +5,7 @@ const ValidateTokenRecoverAccount = require("../middlewares/ValidateTokenRecover
 
 routes.get(
   "/recover-account/validate-token/:token",
+  ValidateTokenRecoverAccount,
   AuthController.recoverAccountValidateToken
 );
 
