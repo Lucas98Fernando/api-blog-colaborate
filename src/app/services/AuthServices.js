@@ -90,7 +90,8 @@ class AuthServices {
     mailer.sendMail(
       {
         to: email,
-        from: "lucas98fernando@gmail.com",
+        from: "blog-colaborate@hotmail.com",
+        subject: "Recuperação de conta",
         template: "RecoverAccount",
         context: {
           token,
