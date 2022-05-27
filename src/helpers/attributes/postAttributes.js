@@ -1,7 +1,7 @@
 const postAttributes = [
   "id",
   "id_author",
-  "id_category",
+  // "id_category",
   "status",
   "title",
   "description",

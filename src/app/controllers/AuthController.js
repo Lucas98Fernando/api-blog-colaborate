@@ -17,6 +17,7 @@ class AuthController {
           .json("Não foi possível cadastrar o usuário");
     }
   }
+
   async login(request, response) {
     try {
       const userData = await AuthServices.login(request.body);
@@ -30,6 +31,7 @@ class AuthController {
           .json({ error: "Não foi possível realizar o login" });
     }
   }
+
   async forgotPassword(request, response) {
     try {
       await AuthServices.forgotPassword(request.body);
@@ -43,6 +45,7 @@ class AuthController {
           .json({ error: "Não foi possível enviar o e-mail" });
     }
   }
+
   async recoverAccountValidateToken(request, response) {
     try {
       const userEmail = request.email_recover_account;
@@ -54,6 +57,7 @@ class AuthController {
         .json({ error: "Token inválido para utilização" });
     }
   }
+
   async recoverAccount(request, response) {
     try {
       await AuthServices.recoverAccount(request.body);

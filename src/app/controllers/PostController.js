@@ -15,6 +15,7 @@ class PostController {
           .json({ error: "Não foi possível cadastrar o post" });
     }
   }
+
   async getByUser(request, response) {
     try {
       const postsByUser = await PostServices.getByUser(request.user_id);
@@ -25,6 +26,7 @@ class PostController {
         .json({ error: "Não foi possível listar as postagens" });
     }
   }
+
   async getAll(request, response) {
     try {
       const allPosts = await PostServices.getAll();
@@ -35,6 +37,7 @@ class PostController {
         .json({ error: "Não foi possível listar as postagens" });
     }
   }
+
   async getApproved(request, response) {
     try {
       const approvedPosts = await PostServices.getApproved();
@@ -45,6 +48,7 @@ class PostController {
         .json({ error: "Não foi possível listar as postagens" });
     }
   }
+
   async getWaitingApproval(request, response) {
     try {
       const waitingApproval = await PostServices.getWaitingApproval();
@@ -55,6 +59,7 @@ class PostController {
         .json({ error: "Não foi possível listar as postagens" });
     }
   }
+
   async approval(request, response) {
     try {
       await PostServices.approval(request.params);
@@ -68,6 +73,7 @@ class PostController {
           .json({ error: "Não foi possível aprovar a postagem" });
     }
   }
+
   async update(request, response) {
     try {
       await PostServices.update(
@@ -87,6 +93,7 @@ class PostController {
           .json({ error: "Não foi possível atualizar a postagem" });
     }
   }
+
   async delete(request, response) {
     try {
       await PostServices.delete(request.params, request.user_id);

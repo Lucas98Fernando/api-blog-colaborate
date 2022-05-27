@@ -10,6 +10,7 @@ class CategoryServices {
       throw new Error(error);
     }
   }
+
   async findCategory(idCategory) {
     try {
       const category = await Category.findOne({ where: { id: idCategory } });
@@ -18,6 +19,7 @@ class CategoryServices {
       throw new Error(error);
     }
   }
+
   async create(body) {
     try {
       const { name, slug } = body;
@@ -29,6 +31,7 @@ class CategoryServices {
       throw error;
     }
   }
+
   async getAll() {
     try {
       const categories = await Category.findAll({
@@ -39,6 +42,7 @@ class CategoryServices {
       throw error;
     }
   }
+
   async update(params, body) {
     try {
       const { idCategory } = params;
@@ -55,6 +59,7 @@ class CategoryServices {
       throw error;
     }
   }
+
   async delete(params) {
     try {
       const { idCategory } = params;

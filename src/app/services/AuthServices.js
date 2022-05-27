@@ -12,6 +12,7 @@ class AuthServices {
       expiresIn: expiresIn,
     });
   }
+
   async checkEmail(email) {
     try {
       const userByEmail = await User.findOne({
@@ -22,6 +23,7 @@ class AuthServices {
       throw new Error(error);
     }
   }
+
   async register(body) {
     try {
       const { name, email, password } = body;
@@ -37,6 +39,7 @@ class AuthServices {
       throw error;
     }
   }
+
   async login(body) {
     try {
       const { email, password } = body;
@@ -60,6 +63,7 @@ class AuthServices {
       throw error;
     }
   }
+
   async forgotPassword(body) {
     try {
       const { email } = body;
@@ -86,6 +90,7 @@ class AuthServices {
       throw error;
     }
   }
+
   sendRecoverAccountEmail(email, token) {
     mailer.sendMail(
       {
@@ -102,6 +107,7 @@ class AuthServices {
       }
     );
   }
+
   async recoverAccountValidateToken(email) {
     try {
       const user = await this.checkEmail(email);
@@ -111,6 +117,7 @@ class AuthServices {
       throw error;
     }
   }
+
   async recoverAccount(body) {
     try {
       const { token, email, password } = body;

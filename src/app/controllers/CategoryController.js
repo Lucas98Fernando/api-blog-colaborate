@@ -17,6 +17,7 @@ class CategoryController {
           .json({ error: "Não foi possível criar a categoria" });
     }
   }
+
   async getAll(request, response) {
     try {
       const categories = await CategoryServices.getAll();
@@ -27,6 +28,7 @@ class CategoryController {
         .json({ error: "Não foi possível listar as categorias" });
     }
   }
+
   async update(request, response) {
     try {
       await CategoryServices.update(request.params, request.body);
@@ -40,6 +42,7 @@ class CategoryController {
           .json({ error: "Não foi possivel atualizar a categoria" });
     }
   }
+
   async delete(request, response) {
     try {
       await CategoryServices.delete(request.params);
