@@ -13,6 +13,10 @@ class AuthServices {
     });
   }
 
+  isAdmin(idUserType) {
+    return idUserType === 1;
+  }
+
   async checkEmail(email) {
     try {
       const userByEmail = await User.findOne({

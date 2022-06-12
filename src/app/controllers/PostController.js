@@ -1,5 +1,6 @@
 const PostServices = require("../services/PostServices");
 const PostError = require("../errors/HandlerExceptions");
+const AuthServices = require("../services/AuthServices");
 
 class PostController {
   async create(request, response) {
@@ -19,7 +20,10 @@ class PostController {
   async getByUser(request, response) {
     try {
       const postsByUser = await PostServices.getByUser(request.user_id);
-      return response.json(postsByUser);
+      return response.json({
+        isAdmin: AuthServices.isAdmin(request.id_user_type),
+        posts: postsByUser,
+      });
     } catch (error) {
       return response
         .status(400)

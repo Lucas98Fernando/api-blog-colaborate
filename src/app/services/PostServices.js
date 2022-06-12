@@ -3,6 +3,7 @@ const PostError = require("../errors/HandlerExceptions");
 const CategoryServices = require("../services/CategoryServices");
 const postAttributes = require("../../helpers/attributes/postAttributes");
 const Category = require("../models/Category");
+const User = require("../models/User");
 
 class PostServices {
   /*
