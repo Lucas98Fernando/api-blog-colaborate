@@ -80,6 +80,22 @@ class PostServices {
     }
   }
 
+  async getApprovedByUser(userId) {
+    try {
+      console.log(userId);
+      const approvedPostsByUser = await Post.findAll({
+        where: { id_author: userId, status: 2 },
+        attributes: postAttributes,
+        include: [
+          { model: Category, as: "category", attributes: ["id", "name"] },
+        ],
+      });
+      return approvedPostsByUser;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async getWaitingApproval() {
     try {
       const waitingApproval = await Post.findAll({
@@ -90,6 +106,21 @@ class PostServices {
         ],
       });
       return waitingApproval;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getWaitingApprovalByUser(userId) {
+    try {
+      const waitingApprovalByUser = await Post.findAll({
+        where: { id_author: userId, status: 1 },
+        attributes: postAttributes,
+        include: [
+          { model: Category, as: "category", attributes: ["id", "name"] },
+        ],
+      });
+      return waitingApprovalByUser;
     } catch (error) {
       throw error;
     }

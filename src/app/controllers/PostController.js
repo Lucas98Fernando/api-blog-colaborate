@@ -34,7 +34,10 @@ class PostController {
   async getAll(request, response) {
     try {
       const allPosts = await PostServices.getAll();
-      return response.json(allPosts);
+      return response.json({
+        isAdmin: AuthServices.isAdmin(request.id_user_type),
+        posts: allPosts,
+      });
     } catch (error) {
       return response
         .status(400)
@@ -45,7 +48,26 @@ class PostController {
   async getApproved(request, response) {
     try {
       const approvedPosts = await PostServices.getApproved();
-      return response.json(approvedPosts);
+      return response.json({
+        isAdmin: AuthServices.isAdmin(request.id_user_type),
+        posts: approvedPosts,
+      });
+    } catch (error) {
+      return response
+        .status(400)
+        .json({ error: "Não foi possível listar as postagens" });
+    }
+  }
+
+  async getApprovedByUser(request, response) {
+    try {
+      const approvedByUser = await PostServices.getApprovedByUser(
+        request.user_id
+      );
+      return response.json({
+        isAdmin: AuthServices.isAdmin(request.id_user_type),
+        posts: approvedByUser,
+      });
     } catch (error) {
       return response
         .status(400)
@@ -56,7 +78,26 @@ class PostController {
   async getWaitingApproval(request, response) {
     try {
       const waitingApproval = await PostServices.getWaitingApproval();
-      return response.json(waitingApproval);
+      return response.json({
+        isAdmin: AuthServices.isAdmin(request.id_user_type),
+        posts: waitingApproval,
+      });
+    } catch (error) {
+      return response
+        .status(400)
+        .json({ error: "Não foi possível listar as postagens" });
+    }
+  }
+
+  async getWaitingApprovalByUser(request, response) {
+    try {
+      const waitingApprovalByUser = await PostServices.getWaitingApprovalByUser(
+        request.user_id
+      );
+      return response.json({
+        isAdmin: AuthServices.isAdmin(request.id_user_type),
+        posts: waitingApprovalByUser,
+      });
     } catch (error) {
       return response
         .status(400)
