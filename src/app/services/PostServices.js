@@ -69,7 +69,6 @@ class PostServices {
     try {
       const approvedPosts = await Post.findAll({
         where: { status: 2 },
-        attributes: postAttributes,
         include: [
           { model: Category, as: "category", attributes: ["id", "name"] },
         ],
