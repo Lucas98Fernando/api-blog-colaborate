@@ -41,6 +41,7 @@ routes.get(
   AuthMiddleware,
   PostController.getWaitingApprovalByUser
 );
+routes.get("/get-by-id/:id", PostController.getPostById);
 
 // DELETE
 routes.delete("/delete/:idPost", AuthMiddleware, PostController.delete);

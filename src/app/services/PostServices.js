@@ -81,7 +81,6 @@ class PostServices {
 
   async getApprovedByUser(userId) {
     try {
-      console.log(userId);
       const approvedPostsByUser = await Post.findAll({
         where: { id_author: userId, status: 2 },
         attributes: postAttributes,
@@ -90,6 +89,21 @@ class PostServices {
         ],
       });
       return approvedPostsByUser;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getPostById(id) {
+    try {
+      const post = await Post.findOne({
+        where: { id, status: 2 },
+        attributes: postAttributes,
+        include: [
+          { model: Category, as: "category", attributes: ["id", "name"] },
+        ],
+      });
+      return post;
     } catch (error) {
       throw error;
     }

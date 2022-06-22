@@ -22,6 +22,6 @@ routes.delete(
   AdminMiddleware,
   CategoryController.delete
 );
-routes.get("/get-all", AuthMiddleware, CategoryController.getAll);
+routes.get("/get-all", CategoryController.getAll);
 
 module.exports = routes;

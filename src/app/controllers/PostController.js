@@ -75,6 +75,17 @@ class PostController {
     }
   }
 
+  async getPostById(request, response) {
+    try {
+      const postById = await PostServices.getPostById(request.params.id);
+      return response.json(postById);
+    } catch (error) {
+      return response
+        .status(400)
+        .json({ error: "Não foi possível listar o post" });
+    }
+  }
+
   async getWaitingApproval(request, response) {
     try {
       const waitingApproval = await PostServices.getWaitingApproval();
